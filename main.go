@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/umerzaidi/mongoapi-go/tree/master/router"
+	"github.com/umerzaidi/mongoapi-go/blob/master/router"
 )
 
 func main() {

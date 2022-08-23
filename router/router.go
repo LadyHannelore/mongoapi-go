@@ -2,7 +2,7 @@ package router
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/umerzaidi/mongoapi-go/controller"
+	"github.com/umerzaidi/mongoapi-go/blob/master/controller"
 )
 
 func Router() *mux.Router {
