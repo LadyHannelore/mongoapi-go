@@ -1,4 +1,4 @@
-module github.com/hiteshchoudhary/mongoapi
+module github.com/umerzaidi/mongoapi-go
 
 go 1.17
 
