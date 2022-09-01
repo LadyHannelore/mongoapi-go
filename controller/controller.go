@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/umerzaidi/mongoapi-go/model"
@@ -113,6 +114,10 @@ func getAllMovies() []primitive.M {
 	}
 
 	defer cur.Close(context.Background())
+
+	f, _ := os.Create("output.json")
+	as_json, _ := json.MarshalIndent(movies, "", "\t")
+	f.Write(as_json)
 	return movies
 }
 
