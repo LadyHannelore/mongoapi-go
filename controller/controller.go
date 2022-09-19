@@ -56,17 +56,20 @@ func insertOneMovie(movie model.Netflix) {
 }
 
 // update 1 record
-func updateOneMovie(movieId string) {
+func updateOneMovie(movieId string, movie model.Netflix) {
 	id, _ := primitive.ObjectIDFromHex(movieId)
 	filter := bson.M{"_id": id}
-	update := bson.M{"$set": bson.M{"watched": true}}
-
+	update2 := bson.M{"$set": bson.M{"movie": movie.Movie}}
+	update1 := bson.M{"$set": bson.M{"watched": movie.Watched}}
+	update := bson.M{"$set": bson.M{"salary": movie.Salary}}
+	result2, err := collection.UpdateOne(context.Background(), filter, update2)
 	result, err := collection.UpdateOne(context.Background(), filter, update)
+	result1, err := collection.UpdateOne(context.Background(), filter, update1)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println("modified count: ", result.ModifiedCount)
+	fmt.Println("modified count: ", result.ModifiedCount+result1.ModifiedCount+result2.ModifiedCount)
 }
 
 // delete 1 record
@@ -144,9 +147,15 @@ func MarkAsWatched(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-www-form-urlencode")
 	w.Header().Set("Allow-Control-Allow-Methods", "PUT")
 
-	params := mux.Vars(r)
+	/*params := mux.Vars(r)
 	updateOneMovie(params["id"])
-	json.NewEncoder(w).Encode(params["id"])
+	json.NewEncoder(w).Encode(params["id"])*/
+	var movie model.Netflix
+	_ = json.NewDecoder(r.Body).Decode(&movie)
+	//insertOneMovie(movie)
+	params := mux.Vars(r)
+	updateOneMovie(params["id"], movie)
+	json.NewEncoder(w).Encode(movie)
 }
 
 func DeleteAMovie(w http.ResponseWriter, r *http.Request) {
